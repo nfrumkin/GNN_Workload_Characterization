@@ -1,0 +1,2 @@
+name,time,flop_count,dramRead,dramWrite,flops,ai
+pygcn,0.013389053344726563,131384495,348655,67067,9812829302.957952,9
