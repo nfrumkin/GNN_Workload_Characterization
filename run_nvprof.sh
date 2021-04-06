@@ -3,9 +3,9 @@
 # we create a new short name for each experiment run
 RUN_NAME="pygcn"
 PYTHON=python3.6
-LOG_DIR="logs"
+LOG_DIR="GNN_Workload_Characterization/logs"
 EXPERIMENT_HASH=$(date +%s%N | sha256sum | head -c 6)
-EXP_NAME=${RUN_NAME}_${EXPERIMENT_HASH}
+EXP_NAME=${RUN_NAME}_11c740 #${EXPERIMENT_HASH}
 OUTPUT_DIR="${LOG_DIR}/${EXP_NAME}"
 CSV="${OUTPUT_DIR}/stats.csv"
 ROOFLINE_PNG="${OUTPUT_DIR}/ofa.png"
@@ -32,19 +32,21 @@ fi
 OUTFILES=""
 
 echo $DEVICE_NUM
-pushd ../gnns/pygcn/pygcn
 
 logfile="$OUTPUT_DIR"/nvprof.out
-CUDA_VISIBLE_DEVICES=$DEVICE_NUM "$NVPROF" \
---metrics \
-dram_read_transactions,\
-dram_write_transactions,\
-flop_count_dp,\
-flop_count_sp,\
-flop_count_hp \
---csv \
---log-file "$logfile" \
-"$PYTHON" train.py
 
+pushd ../gnns/pygcn/pygcn
+# CUDA_VISIBLE_DEVICES=$DEVICE_NUM "$NVPROF" \
+# --metrics \
+# dram_read_transactions,\
+# dram_write_transactions,\
+# flop_count_dp,\
+# flop_count_sp,\
+# flop_count_hp \
+# --csv \
+# --log-file "$logfile" \
+# "$PYTHON" test.py
+
+TIMEFILE="$OUTPUT_DIR"/time.txt
+CUDA_VISIBLE_DEVICES=$DEVICE_NUM "$PYTHON" time_model.py --time_file $TIMEFILE
 popd
-
