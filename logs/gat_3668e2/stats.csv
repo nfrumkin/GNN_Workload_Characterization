@@ -1,0 +1,2 @@
+name,time,flop_count,dram_accesses,flops,ai
+/home/nfrumkin/GNN_Workload_Characterization/logs/gat_3668e2/nvprof.out,0.11990693249972537,1381114375,75615895,11518219557.51527,0.570777139102169
