@@ -85,11 +85,31 @@ def test(args):
             if torch.is_tensor(data[x]):
                 data[x] = data[x].to(args.device)
 
+    if len(args.time_file) != 0: 
+        model.eval()  # set evaluation mode
+        embeddings = model.encode(data['features'], data['adj_train_norm'])
+        val_metrics = model.compute_metrics(embeddings, data, 'val')
+    else:
+        n_warmup = 50
+        n_sample = 50
+        print("=== Running Warmup Passes")
+        for i in range(0,n_warmup):
+            output = model(features, adj)
 
-    model.eval()  # set evaluation mode
-    embeddings = model.encode(data['features'], data['adj_train_norm'])
-    val_metrics = model.compute_metrics(embeddings, data, 'val')
+        print("=== Collecting Runtime over ", str(n_sample), " Passes")
+        tic = time.perf_counter()
+        for i in range(0,n_sample):
+            output = model(features, adj)
+        toc = time.perf_counter()
+        avg_runtime = float(toc - tic)/n_sample
+        print("average runtime = ", avg_runtime)
+
+        # write runtime to file
+        f = open(file, "w")
+        f.write(str(avg_runtime)+"\n")
+        f.close()
 
 if __name__ == '__main__':
+    parser.add_argument('--time_file', type=str, default='', help='timing output file')
     args = parser.parse_args()
     test(args)

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # we create a new short name for each experiment run
-BATCH_NAME="gat"
+BATCH_NAME="gcn"
 PYTHON=python3.6
 PROJECT_HOME=~/GNN_Workload_Characterization
 LOG_DIR=$PROJECT_HOME/"logs"
