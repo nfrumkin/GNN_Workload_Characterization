@@ -102,12 +102,12 @@ def time_model(model, file):
     n_sample = 50
     print("=== Running Warmup Passes")
     for i in range(0,n_warmup):
-        output = model(features, adj)
+        model(features, adj)
 
     print("=== Collecting Runtime over ", str(n_sample), " Passes")
     tic = time.perf_counter()
     for i in range(0,n_sample):
-        output = model(features, adj)
+        model(features, adj)
     toc = time.perf_counter()
     avg_runtime = float(toc - tic)/n_sample
     print("average runtime = ", avg_runtime)
