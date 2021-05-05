@@ -1,0 +1,2 @@
+name,time,flop_count,dram_accesses,flops,ai
+/home/nfrumkin/gnns/GNN_Workload_Characterization/logs/gcn_a91b40/nvprof.out,0.0011640958860516548,132973281,336307,114228804167.51128,12.356017065508597

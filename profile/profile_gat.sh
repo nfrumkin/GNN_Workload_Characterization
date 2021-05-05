@@ -3,12 +3,12 @@
 # we create a new short name for each experiment run
 BATCH_NAME="gat"
 PYTHON=python3.6
-PROJECT_HOME=~/GNN_Workload_Characterization
+PROJECT_HOME=/home/nfrumkin/gnns/GNN_Workload_Characterization
 LOG_DIR=$PROJECT_HOME/"logs"
 EXPERIMENT_HASH=$(date +%s%N | sha256sum | head -c 6)
-EXP_NAME=${BATCH_NAME}_3668e2 #${EXPERIMENT_HASH}
+EXP_NAME=${BATCH_NAME}_${EXPERIMENT_HASH}
 OUTPUT_DIR="${LOG_DIR}/${EXP_NAME}"
-WORKLOAD_DIR=~/gnns/pyGAT
+WORKLOAD_DIR=/home/nfrumkin/gnns/pyGAT
 TEST_PY=${WORKLOAD_DIR}/test.py
 NVPROF_OUT=$OUTPUT_DIR/nvprof.out
 STATS_CSV=$OUTPUT_DIR/stats.csv
