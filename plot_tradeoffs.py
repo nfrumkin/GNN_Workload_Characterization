@@ -7,7 +7,7 @@ import os
 import pandas as pd
 parser = argparse.ArgumentParser(description="generate accuracy/latency tradeoff curve")
 parser.add_argument('--csv', '-c', type=str, default="test.csv", nargs='+', help="input csv file path")
-parser.add_argument('--machine', '-m', type=str, choices=["TITAN-Xp", "1080ti", "v100", "a100"], default="titanxp", help="hardware type")
+parser.add_argument('--machine', '-m', type=str, choices=["TITAN-Xp", "1080ti", "v100", "a100","skx"], default="titanxp", help="hardware type")
 parser.add_argument('--plotdir', '-o', type=str, default=".", help="plot output dir")
 args = parser.parse_args()
 
