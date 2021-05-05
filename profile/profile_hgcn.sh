@@ -19,7 +19,7 @@ echo "Running new experiments: $EXP_NAME"
 if [ "$MACHINE" == "v100" ]; then
 	NVPROF="/usr/local/cuda/bin/nvprof"
 	DEVICE_NUM=2
-elif [ "$MACHINE" == "TITAN Xp" ]; then
+elif [ "$MACHINE" == "TITAN-Xp" ]; then
 	NVPROF="/usr/local/cuda-11.1/bin/nvprof"
 	DEVICE_NUM=0
 elif [ "$MACHINE" == "1080ti" ]; then
