@@ -29,6 +29,12 @@ elif args.machine == "a100":
     # source: https://www.nvidia.com/en-us/data-center/a100/
     peak_flops = 19.5e+12 # TFLOPs single precision
     peak_mem_band = 1555e+9 # GB/s for PCIe
+elif args.machine == "skx":
+    num_avx512=2
+    sp_per_avx=32 # https://community.intel.com/t5/Software-Tuning-Performance/Calculate-the-Max-Flops-on-Skylake/td-p/1160952
+    peak_freq=3.2e+9 # https://ark.intel.com/content/www/us/en/ark/compare.html?productIds=120501
+    peak_flops = num_avx512*sp_per_avx*peak_freq
+    peak_mem_band = 2666e+8 # MB/s for DDR4
 else:
     raise Exception("Invalid hardware type")
 
