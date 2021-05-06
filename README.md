@@ -9,3 +9,6 @@
 
 ### PyGCN Usage
 Same as PyGAT above, just with pygcn repo and pygcn folder
+
+## Profiler
+collect profiler metrics by running: 'python3 profiler.py --pkl_file gat.pkl'
