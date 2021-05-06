@@ -78,7 +78,7 @@ if args.cuda:
 features, adj, labels = Variable(features), Variable(adj), Variable(labels)
 
 def compute_test():
-    with profiler.profile(record_shapes=True) as prof:
+    with profiler.profile(profile_memory=True, record_shapes=True) as prof:
         with profiler.record_function("model_infrerence"):
             model.eval()
             output = model(features, adj)
