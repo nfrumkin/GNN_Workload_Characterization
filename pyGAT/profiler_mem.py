@@ -78,7 +78,7 @@ if args.cuda:
 features, adj, labels = Variable(features), Variable(adj), Variable(labels)
 
 def compute_test():
-    with profiler.profile(profile_memory=True, record_shapes=True) as prof:
+    with profiler.profile(profile_memory=True, record_shapes=True, use_cuda=True) as prof:
         with profiler.record_function("model_inference"):
             model.eval()
             output = model(features, adj)
