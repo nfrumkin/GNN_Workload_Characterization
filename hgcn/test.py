@@ -16,6 +16,8 @@ from models.base_models import NCModel, LPModel
 from utils.data_utils import load_data
 from utils.train_utils import get_dir_name, format_metrics
 
+import torch.cuda.profiler as profiler
+
 
 def test(args):
     np.random.seed(args.seed)
@@ -66,7 +68,7 @@ def test(args):
 
     # Model and optimizer
     model = Model(args)
-    checkpoint_path="logs/lp/2021_5_3/0/model.pth"
+    checkpoint_path="hgcn_chkpt/model.pth"
     model.load_state_dict(torch.load(checkpoint_path))
     logging.info(str(model))
     optimizer = getattr(optimizers, args.optimizer)(params=model.parameters(), lr=args.lr,
@@ -85,21 +87,24 @@ def test(args):
             if torch.is_tensor(data[x]):
                 data[x] = data[x].to(args.device)
 
-    if len(args.time_file) != 0: 
+    if len(args.time_file) == 0: 
         model.eval()  # set evaluation mode
         embeddings = model.encode(data['features'], data['adj_train_norm'])
         val_metrics = model.compute_metrics(embeddings, data, 'val')
     else:
         n_warmup = 50
         n_sample = 50
+        model.eval()  # set evaluation mode
         print("=== Running Warmup Passes")
         for i in range(0,n_warmup):
-            output = model(features, adj)
+            embeddings = model.encode(data['features'], data['adj_train_norm'])
+            val_metrics = model.compute_metrics(embeddings, data, 'val')
 
         print("=== Collecting Runtime over ", str(n_sample), " Passes")
         tic = time.perf_counter()
         for i in range(0,n_sample):
-            output = model(features, adj)
+            embeddings = model.encode(data['features'], data['adj_train_norm'])
+            val_metrics = model.compute_metrics(embeddings, data, 'val')
         toc = time.perf_counter()
         avg_runtime = float(toc - tic)/n_sample
         print("average runtime = ", avg_runtime)
@@ -112,4 +117,6 @@ def test(args):
 if __name__ == '__main__':
     parser.add_argument('--time_file', type=str, default='', help='timing output file')
     args = parser.parse_args()
+    profiler.start()
     test(args)
+    profiler.stop()
