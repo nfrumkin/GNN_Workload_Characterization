@@ -12,3 +12,9 @@ Same as PyGAT above, just with pygcn repo and pygcn folder
 
 ## Profiler
 collect profiler metrics by running: 'python3 profiler.py --pkl_file gat.pkl'
+
+
+`mkdir gnns && cd gnns`
+`git clone https://github.com/tkipf/pygcn.git`
+`git clone https://github.com/HazyResearch/hgcn.git`
+`git clone https://github.com/Diego999/pyGAT.git`
