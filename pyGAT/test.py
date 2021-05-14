@@ -12,6 +12,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
 from torch.autograd import Variable
+import torch.cuda.profiler as profiler
 
 from utils import load_data, accuracy
 from models import GAT, SpGAT
@@ -113,4 +114,6 @@ if __name__ == "__main__":
     if len(args.time_file) != 0: # time and send time to file
         time_model(args.time_file)
     else:
+       profiler.start()
        compute_test()
+       profiler.stop()
