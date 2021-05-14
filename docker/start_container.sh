@@ -3,8 +3,8 @@ docker run  \
 	--ipc=host \
 	--privileged \
 	--gpus=all \
-	-v /home/nfrumkin/gnns:/gnns \
-	-v /home/nfrumkin/gnns:/gnns \
+	-v ~/gnns:/gnns \
+	-v ~/GNN_Workload_Characterization:/GNN_Workload_Characterization \
 	gat:Dockerfile
 	#nvcr.io/nvidia/pytorch:20.11-py3
 	#--rm \
