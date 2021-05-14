@@ -3,22 +3,28 @@
 # we create a new short name for each experiment run
 BATCH_NAME="gcn"
 PYTHON=python3.6
-PROJECT_HOME=/home/nfrumkin/gnns/GNN_Workload_Characterization
+HOME=""
+PROJECT_HOME=$HOME/gnns/GNN_Workload_Characterization
 LOG_DIR=$PROJECT_HOME/"logs"
 EXPERIMENT_HASH=$(date +%s%N | sha256sum | head -c 6)
-EXP_NAME=${BATCH_NAME}_a91b40 #${EXPERIMENT_HASH}
+EXP_NAME=${BATCH_NAME}_${EXPERIMENT_HASH}
 OUTPUT_DIR="${LOG_DIR}/${EXP_NAME}"
-WORKLOAD_DIR=/home/nfrumkin/gnns/pygcn/pygcn
+WORKLOAD_DIR=$HOME/gnns/pygcn/pygcn
 TEST_PY=${WORKLOAD_DIR}/test.py
 NVPROF_OUT=$OUTPUT_DIR/nvprof.out
 STATS_CSV=$OUTPUT_DIR/stats.csv
-MACHINE="TITAN-Xp"
+MACHINE="v100"
 
 echo "Running new experiments: $EXP_NAME"
 
 if [ "$MACHINE" == "v100" ]; then
-	NVPROF="/usr/local/cuda/bin/nvprof"
+	NVPROF="nvprof"
 	DEVICE_NUM=2
+	PYTHON="python"
+elif [ "$MACHINE" == "a100" ]; then
+	NVPROF="nvprof"
+	DEVICE_NUM=0
+	PYTHON="python"
 elif [ "$MACHINE" == "TITAN-Xp" ]; then
 	NVPROF="/usr/local/cuda-11.1/bin/nvprof"
 	DEVICE_NUM=0
@@ -32,7 +38,7 @@ else
 fi
 
 mkdir -p $OUTPUT_DIR
-IN_ARGS=" --pkl_file trained-model.pkl"
+IN_ARGS=" --pkl_file gcn.pkl"
 
 pushd $WORKLOAD_DIR
 

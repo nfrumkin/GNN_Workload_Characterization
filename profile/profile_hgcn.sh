@@ -3,22 +3,28 @@
 # we create a new short name for each experiment run
 BATCH_NAME="hgcn"
 PYTHON=python3.6
-PROJECT_HOME=/GNN_Workload_Characterization
+HOME=""
+PROJECT_HOME=$HOME/gnns/GNN_Workload_Characterization
 LOG_DIR=$PROJECT_HOME/"logs"
 EXPERIMENT_HASH=$(date +%s%N | sha256sum | head -c 6)
-EXP_NAME=${BATCH_NAME}_3668e2 #${EXPERIMENT_HASH}
+EXP_NAME=${BATCH_NAME}_${EXPERIMENT_HASH}
 OUTPUT_DIR="${LOG_DIR}/${EXP_NAME}"
-WORKLOAD_DIR=/gnns/hgcn
+WORKLOAD_DIR=$HOME/gnns/hgcn
 TEST_PY=${WORKLOAD_DIR}/test.py
 NVPROF_OUT=$OUTPUT_DIR/nvprof.out
 STATS_CSV=$OUTPUT_DIR/stats.csv
-MACHINE="1080ti"
+MACHINE="v100"
 
 echo "Running new experiments: $EXP_NAME"
 
 if [ "$MACHINE" == "v100" ]; then
-	NVPROF="/usr/local/cuda/bin/nvprof"
+	NVPROF="nvprof"
 	DEVICE_NUM=2
+	PYTHON="python"
+elif [ "$MACHINE" == "a100" ]; then
+	NVPROF="nvprof"
+	DEVICE_NUM=0
+	PYTHON="python"
 elif [ "$MACHINE" == "TITAN-Xp" ]; then
 	NVPROF="/usr/local/cuda-11.1/bin/nvprof"
 	DEVICE_NUM=0
@@ -32,7 +38,7 @@ else
 fi
 
 mkdir -p $OUTPUT_DIR
-IN_ARGS="--task lp --dataset cora --model HGCN --lr 0.01 --dim 16 --num-layers 2 --act relu --bias 1 --dropout 0.5 --weight-decay 0.001 --manifold PoincareBall --log-freq 5 --cuda 0 --c None"
+IN_ARGS=" --task lp --dataset cora --model HGCN --lr 0.01 --dim 16 --num-layers 2 --act relu --bias 1 --dropout 0.5 --weight-decay 0.001 --manifold PoincareBall --log-freq 5 --cuda 0 --c None"
 
 pushd $WORKLOAD_DIR
 
