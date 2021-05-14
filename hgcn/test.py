@@ -110,7 +110,7 @@ def test(args):
         print("average runtime = ", avg_runtime)
 
         # write runtime to file
-        f = open(file, "w")
+        f = open(args.time_file, "w")
         f.write(str(avg_runtime)+"\n")
         f.close()
 
