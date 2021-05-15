@@ -1,0 +1,2 @@
+name,time,flop_count,dram_accesses,flops,ai
+/home/natasha/gnns/GNN_Workload_Characterization/logs/gat_503de0/nvprof.out,0.03419519159942865,80988,238704,2368403.164652927,0.010602566358335008
